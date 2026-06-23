@@ -1,0 +1,31 @@
+[project]
+name = "justokenmax"
+version = "0.4.0"
+description = "Token-reduction toolkit for coding agents: attachments (PDF->Markdown, images), log compression, and a code symbol index."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "Kashi" },
+  { name = "Rajan" },
+]
+maintainers = [{ name = "Kalmantic" }]
+dependencies = [
+  "pypdf>=4.0",
+  "Pillow>=10.0",
+]
+
+[project.optional-dependencies]
+# Better table extraction. Optional because it pulls in a heavier stack.
+tables = ["pdfplumber>=0.11"]
+
+[project.scripts]
+justokenmax = "justokenmax.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["justokenmax*"]

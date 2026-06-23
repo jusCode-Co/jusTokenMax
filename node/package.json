@@ -1,0 +1,26 @@
+{
+  "name": "@kalmantic/justokenmax",
+  "version": "0.4.0",
+  "description": "jusTokenMax: token-reduction toolkit for coding agents (PDF->Markdown, image/log/JSON/notebook/CSV compression, code symbol index). Thin Node wrapper that runs the `justokenmax` Python package — install it with `pip install justokenmax`.",
+  "license": "MIT",
+  "homepage": "https://github.com/jusCode-Co/jusTokenMax",
+  "author": "Kashi & Rajan (Kalmantic)",
+  "bin": {
+    "justokenmax": "bin/justokenmax.js"
+  },
+  "files": [
+    "bin/"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": [
+    "claude-code",
+    "pdf-to-markdown",
+    "image-compression",
+    "log-compression",
+    "code-index",
+    "token-optimization",
+    "justokenmax"
+  ]
+}

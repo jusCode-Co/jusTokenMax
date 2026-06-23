@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# justokenmax runtime: cache/ledger (home dir) + per-project code index
+.justokenmax/
+
+# benchmark inputs are downloaded/generated on demand; don't redistribute them
+benchmarks/fixtures/
+
+# OS
+.DS_Store
+
+# local Claude Code session settings
+.claude/
