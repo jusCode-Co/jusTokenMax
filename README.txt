@@ -14,6 +14,9 @@ Rajan (https://www.linkedin.com/in/thiyagarajan/), founders of
 Kalmantic (https://www.kalmantic.com) - jusCode.co. MIT licensed.
 Public repo - contributions and better benchmarks welcome.
 
+Support this project: it's free and MIT-licensed. If it saves you tokens,
+please consider sponsoring -> https://github.com/sponsors/Kashi-KS
+
 
 THE LEVERS
 ------------------------------------------------------------------------------

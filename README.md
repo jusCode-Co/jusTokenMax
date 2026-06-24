@@ -13,6 +13,14 @@ Code plugin** (hooks, commands, skills) that runs it automatically.
 > [Kalmantic](https://www.kalmantic.com) — [jusCode.co](https://juscode.co).
 > MIT licensed. Public repo — contributions and better benchmarks welcome.
 
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=githubsponsors)](https://github.com/sponsors/Kashi-KS)
+
+## Support this project
+
+jusTokenMax is free and MIT-licensed. If it saves you tokens (and money), please
+consider **[sponsoring on GitHub](https://github.com/sponsors/Kashi-KS)** — it
+funds the time to add OCR, more languages, and the remaining roadmap. Thank you 🙏
+
 ---
 
 ## The levers
