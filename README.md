@@ -13,8 +13,10 @@ fraction of the tokens.
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=githubsponsors)](https://github.com/sponsors/Kashi-KS)
 
 <p align="center">
-  <img src="assets/terminal-demo.svg" alt="jusTokenMax — install, run the tests, and the measured token-reduction results (real-world tasks first, then single inputs)" width="740">
+  <img src="assets/terminal-demo.gif" alt="Claude Code with the jusTokenMax plugin: install it, Claude builds a project (files auto-compressed by the Read hook), then the measured token-reduction results — real-world tasks first, then single inputs" width="740">
 </p>
+<!-- terminal-demo.gif loops on GitHub; assets/terminal-demo.svg is the crisp (static) source. -->
+
 
 ---
 

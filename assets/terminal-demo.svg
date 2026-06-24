@@ -1,79 +1,81 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 612" width="780" height="612" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" role="img" aria-label="jusTokenMax: install, run tests, and measured token-reduction results (real-world tasks first, then single inputs)">
-  <rect width="780" height="612" rx="12" fill="#000000" stroke="#3a3a3a"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 600" width="780" height="600" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" role="img" aria-label="jusTokenMax as a Claude Code plugin: install it, let Claude build a project (files auto-compressed), and the measured token-reduction results">
+  <rect width="780" height="600" rx="12" fill="#000000" stroke="#3a3a3a"/>
   <!-- title bar -->
   <rect width="780" height="34" rx="12" fill="#0c0c0c"/>
   <rect y="22" width="780" height="12" fill="#0c0c0c"/>
   <circle cx="22" cy="17" r="6" fill="#4a4a4a"/>
   <circle cx="42" cy="17" r="6" fill="#3a3a3a"/>
   <circle cx="62" cy="17" r="6" fill="#2c2c2c"/>
-  <text x="390" y="21" text-anchor="middle" font-size="12" fill="#777">jusTokenMax — token-reduction toolkit</text>
+  <text x="390" y="21" text-anchor="middle" font-size="12" fill="#777">Claude Code — jusTokenMax plugin</text>
 
-  <g font-size="14">
-    <text x="22" y="66"><tspan fill="#6e7681">$ </tspan><tspan fill="#ffffff">pip install ./python pypdf Pillow</tspan></text>
-    <text x="22" y="86" fill="#9aa0a6">  installed the `justokenmax` CLI</text>
+  <g font-size="13.5">
+    <!-- install the plugin -->
+    <text x="22" y="62" fill="#9aa0a6"># install the plugin (one slash command per line)</text>
+    <text x="22" y="84"><tspan fill="#6e7681">&#8250; </tspan><tspan fill="#ffffff">/plugin marketplace add github.com/Kalmantic/jusTokenMax</tspan></text>
+    <text x="22" y="104"><tspan fill="#6e7681">&#8250; </tspan><tspan fill="#ffffff">/plugin install justokenmax@justokenmax</tspan></text>
+    <text x="22" y="124" fill="#9aa0a6">  <tspan fill="#fff">&#10003;</tspan> Read hook active — every file Claude reads is auto-compressed</text>
 
-    <text x="22" y="116"><tspan fill="#6e7681">$ </tspan><tspan fill="#ffffff">pytest -q</tspan></text>
-    <text x="22" y="136" fill="#9aa0a6">  ............................................ <tspan fill="#ffffff">117 passed</tspan></text>
+    <!-- a real build; files auto-compressed by the hook -->
+    <text x="22" y="152" fill="#9aa0a6"># Claude builds the InvestWatch dashboard, reading your data:</text>
+    <text x="22" y="172" fill="#9aa0a6">    news.json   <tspan fill="#fff">154k &#8594; 0.8k</tspan>      holdings.csv  <tspan fill="#fff">2k &#8594; 0.3k</tspan></text>
+    <text x="22" y="192" fill="#9aa0a6">    market.csv  <tspan fill="#fff">176k &#8594; 0.5k</tspan>      build.log     <tspan fill="#fff">58k &#8594; 0.5k</tspan></text>
 
-    <text x="22" y="166"><tspan fill="#6e7681">$ </tspan><tspan fill="#ffffff">justokenmax optimize report.pdf build.log api.json data.csv</tspan></text>
-    <text x="22" y="186" fill="#9aa0a6">  pdf 16k<tspan fill="#fff">&#8594;</tspan>7k   log 31k<tspan fill="#fff">&#8594;</tspan>0.3k   json 168k<tspan fill="#fff">&#8594;</tspan>0.4k   csv 45k<tspan fill="#fff">&#8594;</tspan>0.2k</text>
-
-    <text x="22" y="216"><tspan fill="#6e7681">$ </tspan><tspan fill="#ffffff">justokenmax stats</tspan></text>
-    <text x="22" y="236" fill="#9aa0a6">  <tspan fill="#ffffff">480,000+</tspan> tokens saved</text>
+    <!-- see the result -->
+    <text x="22" y="220"><tspan fill="#6e7681">&#8250; </tspan><tspan fill="#ffffff">justokenmax stats</tspan></text>
+    <text x="22" y="240" fill="#9aa0a6">  <tspan fill="#ffffff">532,789 &#8594; 117,354</tspan> tokens this build  <tspan fill="#ffffff">(-77%)</tspan></text>
   </g>
 
-  <line x1="22" y1="258" x2="758" y2="258" stroke="#2a2a2a"/>
-  <text x="22" y="284" font-size="12" letter-spacing="1.5" fill="#9aa0a6">TOKEN REDUCTION  ·  measured</text>
+  <line x1="22" y1="262" x2="758" y2="262" stroke="#2a2a2a"/>
+  <text x="22" y="286" font-size="12" letter-spacing="1.5" fill="#9aa0a6">TOKEN REDUCTION  ·  measured</text>
 
   <!-- bar chart: track x=300 width=360 (=100%) -->
   <g font-size="13" fill="#cfcfcf">
-    <text x="22" y="306" font-size="11" letter-spacing="1" fill="#7d8590">REAL-WORLD TASKS (whole project, one pass)</text>
+    <text x="22" y="308" font-size="11" letter-spacing="1" fill="#7d8590">REAL-WORLD TASKS (whole project, one pass)</text>
     <g>
-      <text x="22" y="332">Extend a website codebase</text>
-      <rect x="300" y="321" width="360" height="15" fill="#171717"/>
-      <rect x="300" y="321" width="216" height="15" fill="#e6e6e6"><animate attributeName="width" from="0" to="216" dur="0.9s" begin="0.1s" fill="freeze"/></rect>
-      <text x="670" y="332" fill="#ffffff" font-weight="bold">-60%</text>
+      <text x="22" y="334">Extend a website codebase</text>
+      <rect x="300" y="323" width="360" height="15" fill="#171717"/>
+      <rect x="300" y="323" width="216" height="15" fill="#e6e6e6"><animate attributeName="width" from="0" to="216" dur="0.9s" begin="0.1s" fill="freeze"/></rect>
+      <text x="670" y="334" fill="#ffffff" font-weight="bold">-60%</text>
     </g>
     <g>
-      <text x="22" y="362">Build a project from a PRD *</text>
-      <rect x="300" y="351" width="360" height="15" fill="#171717"/>
-      <rect x="300" y="351" width="277" height="15" fill="#e6e6e6"><animate attributeName="width" from="0" to="277" dur="0.9s" begin="0.2s" fill="freeze"/></rect>
-      <text x="670" y="362" fill="#ffffff" font-weight="bold">-77%</text>
+      <text x="22" y="364">Build a project from a PRD *</text>
+      <rect x="300" y="353" width="360" height="15" fill="#171717"/>
+      <rect x="300" y="353" width="277" height="15" fill="#e6e6e6"><animate attributeName="width" from="0" to="277" dur="0.9s" begin="0.2s" fill="freeze"/></rect>
+      <text x="670" y="364" fill="#ffffff" font-weight="bold">-77%</text>
     </g>
 
-    <text x="22" y="396" font-size="11" letter-spacing="1" fill="#7d8590">SINGLE INPUTS</text>
+    <text x="22" y="398" font-size="11" letter-spacing="1" fill="#7d8590">SINGLE INPUTS</text>
     <g>
-      <text x="22" y="422">PDF &#8594; Markdown</text>
-      <rect x="300" y="411" width="360" height="15" fill="#171717"/>
-      <rect x="300" y="411" width="202" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="202" dur="0.9s" begin="0.3s" fill="freeze"/></rect>
-      <text x="670" y="422" fill="#ffffff" font-weight="bold">-56%</text>
+      <text x="22" y="424">PDF &#8594; Markdown</text>
+      <rect x="300" y="413" width="360" height="15" fill="#171717"/>
+      <rect x="300" y="413" width="202" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="202" dur="0.9s" begin="0.3s" fill="freeze"/></rect>
+      <text x="670" y="424" fill="#ffffff" font-weight="bold">-56%</text>
     </g>
     <g>
-      <text x="22" y="452">Build / CI log</text>
-      <rect x="300" y="441" width="360" height="15" fill="#171717"/>
-      <rect x="300" y="441" width="356" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="356" dur="0.9s" begin="0.4s" fill="freeze"/></rect>
-      <text x="670" y="452" fill="#ffffff" font-weight="bold">-99%</text>
+      <text x="22" y="454">Build / CI log</text>
+      <rect x="300" y="443" width="360" height="15" fill="#171717"/>
+      <rect x="300" y="443" width="356" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="356" dur="0.9s" begin="0.4s" fill="freeze"/></rect>
+      <text x="670" y="454" fill="#ffffff" font-weight="bold">-99%</text>
     </g>
     <g>
-      <text x="22" y="482">JSON / API response</text>
-      <rect x="300" y="471" width="360" height="15" fill="#171717"/>
-      <rect x="300" y="471" width="356" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="356" dur="0.9s" begin="0.5s" fill="freeze"/></rect>
-      <text x="670" y="482" fill="#ffffff" font-weight="bold">-99%</text>
+      <text x="22" y="484">JSON / API response</text>
+      <rect x="300" y="473" width="360" height="15" fill="#171717"/>
+      <rect x="300" y="473" width="356" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="356" dur="0.9s" begin="0.5s" fill="freeze"/></rect>
+      <text x="670" y="484" fill="#ffffff" font-weight="bold">-99%</text>
     </g>
     <g>
-      <text x="22" y="512">CSV (5,000 rows)</text>
-      <rect x="300" y="501" width="360" height="15" fill="#171717"/>
-      <rect x="300" y="501" width="356" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="356" dur="0.9s" begin="0.6s" fill="freeze"/></rect>
-      <text x="670" y="512" fill="#ffffff" font-weight="bold">-99%</text>
+      <text x="22" y="514">CSV (5,000 rows)</text>
+      <rect x="300" y="503" width="360" height="15" fill="#171717"/>
+      <rect x="300" y="503" width="356" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="356" dur="0.9s" begin="0.6s" fill="freeze"/></rect>
+      <text x="670" y="514" fill="#ffffff" font-weight="bold">-99%</text>
     </g>
     <g>
-      <text x="22" y="542">Find a symbol vs read file</text>
-      <rect x="300" y="531" width="360" height="15" fill="#171717"/>
-      <rect x="300" y="531" width="349" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="349" dur="0.9s" begin="0.7s" fill="freeze"/></rect>
-      <text x="670" y="542" fill="#ffffff" font-weight="bold">-97%</text>
+      <text x="22" y="544">Find a symbol vs read file</text>
+      <rect x="300" y="533" width="360" height="15" fill="#171717"/>
+      <rect x="300" y="533" width="349" height="15" fill="#bdbdbd"><animate attributeName="width" from="0" to="349" dur="0.9s" begin="0.7s" fill="freeze"/></rect>
+      <text x="670" y="544" fill="#ffffff" font-weight="bold">-97%</text>
     </g>
   </g>
 
-  <text x="22" y="576" font-size="11" fill="#6e7681">* whole-task, one pass (532,789 &#8594; 117,354 tokens); compounds on re-reads</text>
-  <text x="22" y="598" font-size="11" fill="#6e7681">github.com/Kalmantic/jusTokenMax  ·  zero-dependency · reversible · MIT</text>
+  <text x="22" y="580" font-size="11" fill="#6e7681">* whole task, one pass; reproduce it in docs/try-it.md &amp; examples/investment-tracker  ·  github.com/Kalmantic/jusTokenMax</text>
 </svg>
