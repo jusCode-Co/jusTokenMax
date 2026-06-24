@@ -121,3 +121,11 @@ def test_install_kilocode(fake_home):
     entry = json.loads(Path(inst.config_path("kilocode")).read_text())["mcp"]["justokenmax"]
     assert entry["type"] == "local"
     assert entry["command"] == ["npx", "-y", "@kalmantic/justokenmax", "mcp"]
+
+
+def test_install_omp(fake_home):
+    inst.install("omp")
+    p = inst.config_path("omp")
+    assert p.endswith("/.omp/agent/mcp.json")
+    data = json.loads(Path(p).read_text())
+    assert data["mcpServers"]["justokenmax"]["command"] == "npx"
