@@ -28,13 +28,12 @@ only Node gets the full toolset with zero manual setup.
 
 ## As a Claude Code plugin
 
-From inside Claude Code:
+From inside Claude Code, run these **one at a time** (one slash command per
+prompt — don't paste all three together):
 
-```text
-/plugin marketplace add https://github.com/Kalmantic/jusTokenMax.git
-/plugin install justokenmax@justokenmax
-/reload-plugins
-```
+1. `/plugin marketplace add https://github.com/Kalmantic/jusTokenMax.git`
+2. `/plugin install justokenmax@justokenmax`
+3. `/reload-plugins`
 
 The `Read` hook then optimizes PDFs / images / logs / JSON / notebooks / CSV /
 diffs automatically, and the commands, skills, and MCP server become available.

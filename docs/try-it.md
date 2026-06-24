@@ -74,16 +74,16 @@ Same with `JUSTOKENMAX_DISABLE=pdf,image justokenmax optimize ...` for a one-off
 ## 4. In Claude Code — it's automatic
 
 Install it as a Claude Code plugin. From inside Claude Code, run these three
-slash commands:
+slash commands **one at a time** — Claude Code takes a single slash command per
+prompt, so don't paste all three together:
 
-```text
-/plugin marketplace add https://github.com/Kalmantic/jusTokenMax.git
-/plugin install justokenmax@justokenmax
-/reload-plugins
-```
+1. `/plugin marketplace add https://github.com/Kalmantic/jusTokenMax.git`
+2. `/plugin install justokenmax@justokenmax`
+3. `/reload-plugins`
 
-(Non-interactive equivalent: `claude plugin marketplace add https://github.com/Kalmantic/jusTokenMax.git`
-then `claude plugin install justokenmax@justokenmax`.)
+(Non-interactive equivalent in a terminal: `claude plugin marketplace add
+https://github.com/Kalmantic/jusTokenMax.git` then `claude plugin install
+justokenmax@justokenmax`.)
 
 The plugin's hook needs the `justokenmax` CLI on your `PATH` — if you cloned and
 `pip install ./python`'d in step 0 you're set; otherwise `pip install justokenmax`

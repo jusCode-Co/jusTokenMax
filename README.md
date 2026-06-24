@@ -128,13 +128,12 @@ justokenmax --version
 **npm** (optional thin shim — runs `python -m justokenmax`, so it still needs the
 Python package above): `npm install -g @kalmantic/justokenmax`.
 
-**As a Claude Code plugin** — from inside Claude Code:
+**As a Claude Code plugin** — from inside Claude Code, run these **one at a time**
+(one slash command per prompt — don't paste all three together):
 
-```text
-/plugin marketplace add https://github.com/Kalmantic/jusTokenMax.git
-/plugin install justokenmax@justokenmax
-/reload-plugins
-```
+1. `/plugin marketplace add https://github.com/Kalmantic/jusTokenMax.git`
+2. `/plugin install justokenmax@justokenmax`
+3. `/reload-plugins`
 
 The `Read` hook then optimizes PDFs / images / logs / JSON / notebooks / CSV /
 diffs automatically, and the commands, skills, and MCP server become available.
