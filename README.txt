@@ -235,6 +235,27 @@ TEST
                 #          code-index, outline, optimize, cli, hook, mcp, install
 
 
+RESULTS - MEASURED SAVINGS
+------------------------------------------------------------------------------
+All numbers measured (text via a real tokenizer, tiktoken cl100k), reproducible.
+See the terminal diagram in README.md / assets/terminal-demo.svg.
+
+Real-world tasks first (whole project, one pass; compounds on re-reads via delta):
+  Extend an existing website codebase   259,819 -> 103,745   -60%  (docs/try-it.md)
+  Build a project from a PRD            532,789 -> 117,354   -77%
+    (InvestWatch - examples/investment-tracker/ ; ships a runnable reference app
+     in examples/investment-tracker/app/)
+
+Single inputs (python benchmarks/benchmark.py --fetch):
+  PDF -> Markdown (real public PDFs) ...... -56%
+  Verbose build / CI log .................. -99%
+  Large JSON / API response ............... -99%
+  Jupyter notebook ........................ -99%
+  CSV (5,000 rows) ........................ -99%
+  Locate a symbol vs read the whole file .. -97%
+  Image ................................... -42% bytes
+
+
 SUPPORT
 ------------------------------------------------------------------------------
 jusTokenMax is free and MIT-licensed. If it keeps your agent under budget,

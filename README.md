@@ -12,6 +12,10 @@ fraction of the tokens.
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=githubsponsors)](https://github.com/sponsors/Kashi-KS)
 
+<p align="center">
+  <img src="assets/terminal-demo.svg" alt="jusTokenMax — install, run the tests, and the measured token-reduction results (real-world tasks first, then single inputs)" width="740">
+</p>
+
 ---
 
 ## TokenMax under a budget
@@ -389,6 +393,19 @@ pytest -q      # pdf, image, log, json, notebook, csv, diff, delta, redact, code
 All numbers are measured (text via a real tokenizer, tiktoken `cl100k`) and
 reproducible — nothing here is hand-waved.
 
+**Real-world tasks first** — whole-project, one pass; reproduce step by step in
+the linked docs:
+
+| Scenario | Before | After | Reduction |
+| --- | ---: | ---: | ---: |
+| [Extend an existing website codebase](docs/try-it.md) | 259,819 | 103,745 | **−60%** |
+| [Build a project from a PRD — InvestWatch](examples/investment-tracker/PRD.md) (data inputs) | 532,789 | 117,354 | **−77%** |
+
+The InvestWatch example ships a **runnable reference app**
+([`examples/investment-tracker/app/`](examples/investment-tracker/app/index.html)).
+Both numbers are *one pass* — in a real session they compound as the agent
+re-reads files (near-free via delta).
+
 **Single inputs** — reproduce with `python benchmarks/benchmark.py --fetch`:
 
 | Input | Reduction |
@@ -400,18 +417,6 @@ reproducible — nothing here is hand-waved.
 | CSV (5,000 rows) | **−99%** |
 | Locate a symbol vs read the whole file | **−97%** |
 | Image | −42% bytes |
-
-**Whole-task scenarios** — reproduce step by step in the linked docs:
-
-| Scenario | Before | After | Reduction |
-| --- | ---: | ---: | ---: |
-| [Extend an existing website codebase](docs/try-it.md) (one pass) | 259,819 | 103,745 | **−60%** |
-| [Build from scratch from a PRD — InvestWatch](examples/investment-tracker/PRD.md) (data inputs) | 532,789 | 117,354 | **−77%** |
-
-The InvestWatch example ships a **runnable reference app**
-([`examples/investment-tracker/app/`](examples/investment-tracker/app/index.html)).
-Both scenario numbers are *one pass* — in a real session they compound as the
-agent re-reads files (near-free via delta).
 
 ## Support this project
 
