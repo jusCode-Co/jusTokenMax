@@ -20,6 +20,15 @@ CACHE_DIR = ROOT / "cache"
 LEDGER = ROOT / "stats.json"
 
 
+def _harden(path: pathlib.Path) -> None:
+    """Restrict a cache directory to the owner (0700) — defence in depth for the
+    user's own (already-redacted) file content kept locally."""
+    try:
+        os.chmod(path, 0o700)
+    except OSError:
+        return  # best-effort: platforms without chmod (e.g. Windows)
+
+
 def _hash_file(path: str, opts: dict) -> str:
     h = hashlib.sha256()
     h.update(json.dumps(opts, sort_keys=True).encode())
@@ -33,6 +42,8 @@ def cache_paths(src: str, opts: dict, out_ext: str) -> tuple[str, pathlib.Path]:
     """Return (key, output_path) for a source file + options."""
     key = _hash_file(src, opts)
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    _harden(ROOT)
+    _harden(CACHE_DIR)
     return key, CACHE_DIR / f"{key}{out_ext}"
 
 
@@ -54,6 +65,7 @@ def save_meta(key: str, meta: dict) -> None:
 def record_savings(tokens_saved: int, kind: str) -> dict:
     """Add to the lifetime ledger and return the updated totals."""
     ROOT.mkdir(parents=True, exist_ok=True)
+    _harden(ROOT)
     data = {"total_tokens_saved": 0, "runs": 0, "by_kind": {}}
     if LEDGER.exists():
         try:
@@ -92,6 +104,8 @@ def _load_origins() -> dict:
 def record_origin(artifact: str, source: str) -> None:
     """Map an optimized artifact back to the original it came from."""
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    _harden(ROOT)
+    _harden(CACHE_DIR)
     data = _load_origins()
     data[os.path.abspath(artifact)] = os.path.abspath(source)
     ORIGINS.write_text(json.dumps(data, indent=2))
