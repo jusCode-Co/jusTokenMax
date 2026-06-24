@@ -127,5 +127,7 @@ def test_install_omp(fake_home):
     inst.install("omp")
     p = inst.config_path("omp")
     assert p.endswith("/.omp/agent/mcp.json")
-    data = json.loads(Path(p).read_text())
-    assert data["mcpServers"]["justokenmax"]["command"] == "npx"
+    entry = json.loads(Path(p).read_text())["mcpServers"]["justokenmax"]
+    assert entry["type"] == "stdio"
+    assert entry["command"] == "npx"
+    assert entry["args"] == ["-y", "@kalmantic/justokenmax", "mcp"]
