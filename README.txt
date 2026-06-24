@@ -131,6 +131,11 @@ command per prompt - do not paste all three together):
   3. /reload-plugins
 Then the Read hook + commands + skills + MCP server activate automatically.
 
+To uninstall the plugin (one at a time):
+  1. /plugin uninstall justokenmax@justokenmax
+  2. /plugin marketplace remove justokenmax
+  3. /reload-plugins
+
 
 USE
 ------------------------------------------------------------------------------

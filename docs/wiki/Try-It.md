@@ -96,7 +96,14 @@ hook leaves that file untouched. Run `justokenmax stats` anytime to see the
 lifetime savings.
 
 Prefer just the tools (no auto-hook)? `justokenmax install claude` registers the
-MCP server in a project `.mcp.json` instead.
+MCP server in a project `.mcp.json` instead (remove it with `justokenmax
+uninstall claude`).
+
+**To uninstall the plugin** later, run these one at a time:
+
+1. `/plugin uninstall justokenmax@justokenmax`
+2. `/plugin marketplace remove justokenmax`
+3. `/reload-plugins`
 
 ## 5. In Codex CLI / OpenCode / Cursor
 

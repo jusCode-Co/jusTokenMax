@@ -140,6 +140,12 @@ diffs automatically, and the commands, skills, and MCP server become available.
 The hook calls the `justokenmax` CLI, so install the Python package (above) or
 have Node (it auto-provisions via `npx`/`uv`).
 
+To **uninstall** the plugin (one at a time):
+
+1. `/plugin uninstall justokenmax@justokenmax`
+2. `/plugin marketplace remove justokenmax`
+3. `/reload-plugins`
+
 **One-command setup for any agent** (seamless and reversible — idempotent,
 never clobbers your other servers, removes cleanly):
 
