@@ -23,3 +23,6 @@ benchmarks/fixtures/
 
 # local Claude Code session settings
 .claude/
+
+# local-only dev tools (e.g. the README GIF generator)
+temp_gen/
