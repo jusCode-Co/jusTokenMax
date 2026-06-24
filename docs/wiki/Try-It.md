@@ -113,65 +113,114 @@ justokenmax install            # auto-detects and registers the MCP server
 justokenmax uninstall          # clean removal
 ```
 
-## 6. A realistic end-to-end test — build a dashboard, then measure
+## 6. The real test — extend a website codebase, then measure
 
-Want a real, repeatable measurement of token utilization? Give your agent a
-task that **reads several heavy files**, run it once with jusTokenMax **on** and
-once **off**, and compare. This is the kind of task that normally burns tokens.
+The bigger use case isn't a one-shot build — it's **day-to-day development on an
+existing website**, where the token bill is dominated by the agent *reading*
+source files, the lockfile, build output, and **re-reading** them as it
+iterates. That's exactly where jusTokenMax saves tokens. Here's a self-contained
+project to prove it.
 
-### Set up the inputs
-
-You already have `products.csv` and `build.log` from step 1. Add a real PDF spec
-so the PDF lever is exercised too:
+### Scaffold a small e-commerce website project
 
 ```bash
-curl -L -o spec.pdf https://arxiv.org/pdf/1706.03762    # any real PDF works
+mkdir -p shopsite/src shopsite/public shopsite/data && cd shopsite
+
+cat > package.json <<'JSON'
+{ "name":"shopsite","version":"1.0.0",
+  "scripts":{"build":"node build.js","dev":"node server.js"},
+  "dependencies":{"express":"^4.19.2","nanoid":"^5.0.7"} }
+JSON
+
+# a chunky package-lock.json — the classic token sink
+python3 - <<'PY'
+import json
+d={f"node_modules/pkg-{i}":{"version":f"1.{i}.0",
+   "resolved":f"https://registry.npmjs.org/pkg-{i}/-/pkg-{i}-1.{i}.0.tgz",
+   "integrity":"sha512-"+"A"*86,
+   "dependencies":{f"dep-{j}":"^1.0.0" for j in range(6)}} for i in range(800)}
+json.dump({"name":"shopsite","lockfileVersion":3,"packages":d}, open("package-lock.json","w"), indent=2)
+PY
+
+# several source modules (so navigating the code costs real tokens)
+for m in catalog cart filters render api utils format storage; do
+  M="$(printf '%s' "${m:0:1}" | tr a-z A-Z)${m:1}"
+  cat > "src/$m.js" <<JS
+// $m module — part of the ShopSite frontend
+export function ${m}Init(config) { return { ...config, ready: true }; }
+export function ${m}Load(data) { return (data || []).map((x) => x); }
+export class ${M}Manager {
+  constructor(opts) { this.opts = opts || {}; }
+  process(items) { return (items || []).filter(Boolean); }
+  render(el) { if (el) el.innerHTML = ""; }
+}
+export const ${m}Defaults = { enabled: true, limit: 50 };
+JS
+done
+
+# 5,000-row product catalog + a noisy build log
+python3 - <<'PY'
+import csv
+with open("data/products.csv","w",newline="") as f:
+    w=csv.writer(f); w.writerow(["id","name","price","category","in_stock"])
+    for i in range(5000): w.writerow([i,f"Product {i}",round(i*1.99,2),f"cat{i%12}",i%2==0])
+PY
+{ for i in $(seq 1 3000); do echo "[12:00:0$((i%9))] bundling src/module_$i.js ok"; done;
+  echo "ERROR: TypeError: cart is undefined (src/cart.js:42)"; } > build.log
+
+printf '<!doctype html><html><body><div id="app"></div><script type="module" src="../src/render.js"></script></body></html>' > public/index.html
+cd ..
+echo "scaffolded ./shopsite"
 ```
 
-### The prompt (paste this into your agent)
+### The prompt (paste into your agent, working inside `shopsite/`)
 
-> **Build a product analytics dashboard, end to end.**
+> **I'm building an e-commerce product website. Add three features to this
+> existing codebase:**
+> 1. a **product search + category filter** bar,
+> 2. a **shopping cart** that persists in `localStorage`,
+> 3. a **dark-mode toggle**.
 >
-> 1. Read `products.csv` (5,000 rows: id, name, price, in_stock). Summarize:
->    total products, price min/max/avg, and how many are in stock vs out.
-> 2. Read `build.log` and tell me whether the last build passed or failed —
->    quote the exact error line(s) if any.
-> 3. Read `spec.pdf` and list, in 5 bullets, what it's about (treat it as the
->    "requirements doc").
-> 4. Create a single-file static site `dashboard.html` (vanilla HTML/CSS/JS, no
->    frameworks) that loads `products.csv` client-side and renders: summary cards
->    (total products, total in-stock, average price, most-expensive product); a
->    sortable, searchable products table; a price-range slider; and an
->    "in-stock only" toggle. Clean, responsive, light theme.
-> 5. Write a short `dashboard-README.md` explaining how to run it and how the
->    filters work.
-> 6. Re-read `products.csv` once more and confirm your table's column order
->    matches the CSV header exactly.
->
-> Read each file fully before you use it, and work step by step.
+> Work like a real engineer:
+> - First **explore the codebase** to understand how the modules fit together
+>   (catalog, cart, filters, render, api, utils, format, storage) before changing
+>   anything.
+> - Check `package.json` and the dependency tree, and skim `package-lock.json` if
+>   you need to confirm a version.
+> - Wire the data from `data/products.csv` into the catalog.
+> - Implement the features across the relevant `src/*.js` modules and update
+>   `public/index.html`.
+> - Read `build.log` to see the current build error and make sure your changes
+>   address it.
+> - After each edit, re-read the file you changed to verify it, and re-check
+>   `build.log` at the end.
 
-This makes the agent read the CSV (twice → the **delta** lever kicks in), the
-log, and the PDF — exactly the inputs jusTokenMax compresses.
+This is a normal dev loop: it **navigates 8 source modules**, reads
+`package.json` + the big `package-lock.json`, the **5,000-row CSV**, the noisy
+**build log**, and **re-reads** files as it edits — every one of which
+jusTokenMax compresses (code index/outline, JSON, diff, CSV, log, delta).
 
 ### Measure it (on vs off)
 
-1. **With jusTokenMax ON** (plugin installed, or `justokenmax install`), run the
-   prompt. When it finishes, check Claude Code's context/cost with **`/cost`**
-   (or the context indicator), and run **`justokenmax stats`** — it prints the
-   tokens it saved on those reads.
-2. **Turn it OFF** and repeat on a fresh conversation:
+1. **jusTokenMax ON** (plugin installed, or `justokenmax install`). Optionally
+   pre-build the symbol index so navigation is cheap:
    ```bash
-   justokenmax config disable csv log pdf      # or uninstall the plugin
+   justokenmax index shopsite
    ```
-   Run the exact same prompt again and check **`/cost`** once more.
-3. **Compare.** The "off" run carries the raw 5,000-row CSV, the full noisy log,
-   and the page-image PDF into context; the "on" run carries digests. The
-   difference is the token utilization jusTokenMax buys you — typically the
-   inputs alone drop ~90%+. (Re-enable with `justokenmax config enable csv log
-   pdf`.)
+   Run the prompt. When it finishes, check Claude Code's context/cost with
+   **`/cost`**, and run **`justokenmax stats`** for the tokens it saved.
+2. **Turn it OFF**, `/clear`, and run the **identical** prompt again:
+   ```bash
+   justokenmax config disable json diff csv log     # or uninstall the plugin
+   ```
+3. **Compare `/cost`.** The "off" run drags whole source files, the full
+   `package-lock.json`, the raw CSV, and the noisy log into context — and pays
+   again on every re-read. The "on" run carries outlines, digests, and diffs.
+   In a real multi-file dev loop the input savings compound; re-enable with
+   `justokenmax config enable json diff csv log`.
 
-> Tip: keep the task identical and start each run from a cleared conversation
-> (`/clear`) so the only variable is jusTokenMax on vs off.
+> Tip: keep the task identical and `/clear` between runs so the only variable is
+> jusTokenMax on vs off.
 
 ---
 
