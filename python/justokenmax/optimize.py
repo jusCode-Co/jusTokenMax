@@ -56,6 +56,9 @@ class OptimizeResult:
 
 def _redact(text: str) -> str:
     """Strip base64 blobs / data-URIs and mask secrets in a text digest."""
+    from .config import is_enabled
+    if not is_enabled("redact"):
+        return text
     from .redact import redact
     return redact(text)[0]
 
@@ -112,6 +115,11 @@ def optimize(
     if kind == "skip":
         return OptimizeResult(False, "skip", path, None, 0, 0, False,
                               note="unsupported type")
+
+    from .config import is_enabled
+    if not is_enabled(kind):
+        return OptimizeResult(False, "skip", path, None, 0, 0, False,
+                              note="disabled by config")
 
     opts = {"kind": kind, "quality": quality, "max_edge": max_edge}
 

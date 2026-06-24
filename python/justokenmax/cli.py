@@ -101,6 +101,12 @@ def main(argv=None) -> int:
     sub.add_parser("stats").add_argument("--json", action="store_true")
     sub.add_parser("mcp", help="run the MCP server over stdio (any MCP agent)")
 
+    pc = sub.add_parser("config", help="show or toggle which levers are enabled")
+    pc.add_argument("action", nargs="?", choices=("enable", "disable"),
+                    help="enable/disable a lever (omit to show current config)")
+    pc.add_argument("kind", nargs="?", help="pdf|image|log|json|notebook|csv|diff|redact")
+    pc.add_argument("--json", action="store_true")
+
     from .install import AGENTS
     for verb, helptext in (("install", "register the MCP server with a coding agent"),
                            ("uninstall", "remove the MCP server from a coding agent")):
@@ -206,6 +212,26 @@ def main(argv=None) -> int:
     if args.cmd == "mcp":
         from .mcp_server import main as mcp_main
         mcp_main()
+        return 0
+
+    if args.cmd == "config":
+        from . import config as cfg
+        if args.action:
+            if not args.kind:
+                print(f"usage: justokenmax config {args.action} <kind>")
+                return 1
+            try:
+                cfg.set_kind(args.kind, enabled=(args.action == "enable"))
+            except ValueError as e:
+                print(str(e))
+                return 1
+        s = cfg.summary()
+        if args.json:
+            print(json.dumps(s))
+        else:
+            print(f"config: {s['config_file']}")
+            for k, on in s["kinds"].items():
+                print(f"  {k:9} {'on' if on else 'OFF'}")
         return 0
 
     if args.cmd in ("install", "uninstall"):
