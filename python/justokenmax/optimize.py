@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Optional
 
 from . import cache
+from .config import is_enabled
+from .redact import redact
 from .tokens import pdf_image_tokens, text_tokens
 
 PDF_EXTS = {".pdf"}
@@ -79,11 +81,15 @@ class OptimizeResult:
 
 
 def _redact(text: str) -> str:
-    """Strip base64 blobs / data-URIs and mask secrets in a text digest."""
-    from .config import is_enabled
+    """Strip base64 blobs / data-URIs and mask secrets in a text digest.
+
+    Every text digest is routed through here before it is written to the cache
+    artifact, so secrets in source/config files never reach stored output. The
+    `redact`/`is_enabled` imports are module-level (not lazy) so this sanitizer
+    is visible to static dataflow analysis on the write paths in `optimize()`.
+    """
     if not is_enabled("redact"):
         return text
-    from .redact import redact
     return redact(text)[0]
 
 
