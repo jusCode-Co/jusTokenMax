@@ -74,10 +74,11 @@ _AGENTS = {
         "entry": {"type": "local", "command": ["npx"] + _NPX_ARGS},
     },
     "omp": {
-        # Pi / oh-my-pi (the `omp` binary) — user-level MCP config.
+        # Pi / oh-my-pi (the `omp` binary) — user-level MCP config. Each server
+        # entry is the documented {type: "stdio", command, args} shape.
         "path": "~/.omp/agent/mcp.json", "fmt": "json",
         "root": "mcpServers",
-        "entry": {"command": "npx", "args": _NPX_ARGS},
+        "entry": {"type": "stdio", "command": "npx", "args": _NPX_ARGS},
     },
 }
 AGENTS = tuple(_AGENTS)
