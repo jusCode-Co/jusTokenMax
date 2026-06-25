@@ -57,8 +57,9 @@ def test_optimize_redact_masks_secrets_even_when_redact_disabled(monkeypatch):
     # Security regression: even with the `redact` kind disabled, a live secret
     # must never be written to a cache artifact. _redact falls back to
     # mask_secrets rather than returning the text untouched.
-    from justokenmax import optimize
-    monkeypatch.setattr(optimize, "is_enabled", lambda kind: False)
+    import importlib
+    opt = importlib.import_module("justokenmax.optimize")
+    monkeypatch.setattr(opt, "is_enabled", lambda kind: False)
     secret = "AK" + "IA" + "Z" * 16          # AWS access key id shape
-    out = optimize._redact(f"aws_key = {secret}")
+    out = opt._redact(f"aws_key = {secret}")
     assert secret not in out                  # masked despite redact disabled

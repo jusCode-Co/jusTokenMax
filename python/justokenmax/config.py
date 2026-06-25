@@ -9,7 +9,9 @@ to your project. A lever can be disabled two ways (either wins):
 Kinds: pdf, image, log, json, ndjson, notebook, csv, diff, code, lockfile,
 minified, redact. Disabling a kind
 makes optimize() skip it (the Read hook then leaves those files untouched);
-disabling `redact` stops the secret/blob masking pass inside text digests.
+disabling `redact` stops the optional token-cutting pass (base64 blob /
+data-URI elision) inside text digests — secret masking (API keys, tokens,
+passwords) always runs, so credentials are never written to a cache artifact.
 """
 
 from __future__ import annotations
