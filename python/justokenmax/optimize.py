@@ -191,6 +191,7 @@ def optimize(
                                   cached=True, note="cache hit")
         from .pdf import pdf_to_markdown
         md, n_pages = pdf_to_markdown(path)
+        md = _redact(md)  # mask secrets before storing, like every other branch
         out.write_text(md, encoding="utf-8")
         # A PDF is billed as text + a per-page image. Markdown keeps the text
         # and drops the image channel, so the saving is exactly that channel.

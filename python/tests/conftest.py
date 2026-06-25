@@ -70,6 +70,16 @@ def text_pdf(tmp_path):
 
 
 @pytest.fixture
+def secret_pdf(tmp_path):
+    # A PDF whose text contains a secret-shaped token (assembled at runtime so no
+    # literal key sits in source). The optimized markdown artifact must mask it.
+    p = tmp_path / "leaky.pdf"
+    secret = "AK" + "IA" + "S" * 16          # AWS access key id shape
+    _build_text_pdf(str(p), ["Deployment notes", f"aws_key = {secret}"])
+    return str(p), secret
+
+
+@pytest.fixture
 def big_image(tmp_path):
     """A large, hard-to-compress PNG (random noise) above the skip threshold."""
     from PIL import Image

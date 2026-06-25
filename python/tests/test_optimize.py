@@ -22,6 +22,15 @@ def test_pdf_second_run_is_cache_hit(text_pdf):
     assert second.output == first.output
 
 
+def test_pdf_artifact_masks_secrets(secret_pdf):
+    # Regression: the PDF->markdown branch must route through _redact like every
+    # other compressor, so a credential in a PDF is never written to the cache.
+    path, secret = secret_pdf
+    res = optimize(path)
+    assert res.ok and res.kind == "pdf"
+    assert secret not in Path(res.output).read_text(encoding="utf-8")
+
+
 def test_image_dispatch_compresses(big_image):
     res = optimize(big_image)
     assert res.ok and res.kind == "image"
