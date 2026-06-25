@@ -99,23 +99,25 @@ def test_gitignore_glob_pattern(tmp_path):
 
 
 def test_gitignore_anchored_dir_only_matches_root(tmp_path):
-    # Regression: an anchored `/dist/` is pinned to the repo root. It must prune
-    # ./dist but NOT a nested ./packages/foo/dist (common in monorepos) — the
-    # original matcher checked every path segment and dropped the sub-package.
-    (tmp_path / "dist").mkdir()
-    (tmp_path / "dist" / "top.py").write_text("def top_sym(): pass\n")
-    (tmp_path / "packages" / "foo" / "dist").mkdir(parents=True)
-    (tmp_path / "packages" / "foo" / "dist" / "sub.py").write_text(
-        "def nested_dist_sym(): pass\n")
+    # Regression: an anchored `/coverage/` is pinned to the repo root. It must
+    # prune ./coverage but NOT a nested ./packages/foo/coverage (common in
+    # monorepos) — the original matcher checked every path segment and dropped
+    # the sub-package. (`coverage` is used here rather than `dist`/`build`,
+    # which are pruned unconditionally by SKIP_DIRS and so can't show the fix.)
+    (tmp_path / "coverage").mkdir()
+    (tmp_path / "coverage" / "top.py").write_text("def top_sym(): pass\n")
+    (tmp_path / "packages" / "foo" / "coverage").mkdir(parents=True)
+    (tmp_path / "packages" / "foo" / "coverage" / "sub.py").write_text(
+        "def nested_cov_sym(): pass\n")
     (tmp_path / "src").mkdir()
     (tmp_path / "src" / "keep.py").write_text("def keep_sym(): pass\n")
-    (tmp_path / ".gitignore").write_text("/dist/\n")
+    (tmp_path / ".gitignore").write_text("/coverage/\n")
 
     idx = codeindex.build_index(str(tmp_path))
     names = {s["name"] for s in idx["symbols"]}
     assert "keep_sym" in names
-    assert "nested_dist_sym" in names      # nested dist must survive
-    assert "top_sym" not in names          # root-level dist still pruned
+    assert "nested_cov_sym" in names       # nested coverage must survive
+    assert "top_sym" not in names          # root-level coverage still pruned
 
 
 # --------------------------- incremental rebuild -------------------------- #
